@@ -1,0 +1,57 @@
+﻿<Window x:Class="JuegoAhorcado.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:JuegoAhorcado"
+        mc:Ignorable="d"
+        Title="Juego del ahorcado"
+        Height="450"
+        Width="600"
+        MinHeight="450"
+        MinWidth="600"
+        Icon="Assets/icon.ico">
+    <DockPanel>
+        <!--StackPanel botones de abajo-->
+        <StackPanel Orientation="Horizontal"
+                    DockPanel.Dock="Bottom"
+                    Margin="5">
+            <Button Content="Nueva partida" />
+            <Button Content="Rendirse" />
+        </StackPanel>
+        <!--Imagen ahorcado-->
+        <Image DockPanel.Dock="Left"
+               Source="Assets/4.jpg"
+               Margin="5"/>
+        <!--Texto ahorcado-->
+        <TextBlock Text="Ahorcado"
+                   HorizontalAlignment="Center"
+                   FontSize="40"
+                   DockPanel.Dock="Top" />
+        <!--Zona de juego-->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition></RowDefinition>
+                <RowDefinition Height="4*"></RowDefinition>
+            </Grid.RowDefinitions>
+
+            <!--TextBlock palabra a adivinar-->
+            <ScrollViewer HorizontalScrollBarVisibility="Visible"
+                          VerticalScrollBarVisibility="Hidden">
+                <TextBlock x:Name="textBlockPalabraAAdivinar"
+                           Text="Prueba"
+                           HorizontalAlignment="Center"
+                           VerticalAlignment="Center" />
+            </ScrollViewer>
+            
+            <!--Teclado ahorcado-->
+            <Grid x:Name="gridBotones">
+                
+            </Grid>
+
+        </Grid>
+    </DockPanel>
+</Window>
