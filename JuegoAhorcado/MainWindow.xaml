@@ -22,9 +22,10 @@
         <!--Imagen ahorcado-->
         <Image DockPanel.Dock="Left"
                Source="Assets/4.jpg"
-               Margin="5"/>
+               Margin="5" />
         <!--Texto ahorcado-->
-        <TextBlock Text="Ahorcado"
+        <TextBlock
+            Text="Ahorcado"
                    HorizontalAlignment="Center"
                    FontSize="40"
                    DockPanel.Dock="Top" />
@@ -35,23 +36,22 @@
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition></RowDefinition>
-                <RowDefinition Height="4*"></RowDefinition>
+                <RowDefinition Height="2*"></RowDefinition>
             </Grid.RowDefinitions>
 
             <!--TextBlock palabra a adivinar-->
             <ScrollViewer HorizontalScrollBarVisibility="Visible"
                           VerticalScrollBarVisibility="Hidden">
-                <TextBlock x:Name="textBlockPalabraAAdivinar"
-                           Text="Prueba"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center" />
-            </ScrollViewer>
-            
-            <!--Teclado ahorcado-->
-            <Grid x:Name="gridBotones">
-                
-            </Grid>
+                <WrapPanel x:Name="wrapPanelPalabraAAdivinar">
 
+                </WrapPanel>
+            </ScrollViewer>
+
+            <!--Teclado ahorcado-->
+            <UniformGrid x:Name="uniformGridLetras"
+                       Grid.Row="1">
+
+            </UniformGrid>
         </Grid>
     </DockPanel>
 </Window>
