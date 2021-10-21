@@ -20,7 +20,8 @@
             <Button Content="Rendirse" />
         </StackPanel>
         <!--Imagen ahorcado-->
-        <Image DockPanel.Dock="Left"
+        <Image x:Name="imageAhorcado"
+            DockPanel.Dock="Left"
                Source="Assets/4.jpg"
                Margin="5" />
         <!--Texto ahorcado-->
@@ -49,7 +50,7 @@
 
             <!--Teclado ahorcado-->
             <UniformGrid x:Name="uniformGridLetras"
-                       Grid.Row="1">
+                         Grid.Row="1">
 
             </UniformGrid>
         </Grid>
