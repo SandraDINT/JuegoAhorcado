@@ -69,15 +69,20 @@ namespace JuegoAhorcado
 
             for (int i = 0; i < numeroGuiones; i++)
             {
+                viewbox = new Viewbox();
                 textBlockPalabra = new TextBlock();
                 textBlockPalabra.Text += "_ ";
                 textBlockPalabra.FontSize = 24;
-                wrapPanelPalabraAAdivinar.Children.Add(textBlockPalabra);
+                viewbox.Child = textBlockPalabra;
+                wrapPanelPalabraAAdivinar.HorizontalAlignment = HorizontalAlignment.Center;
+                wrapPanelPalabraAAdivinar.VerticalAlignment = VerticalAlignment.Center;
+                wrapPanelPalabraAAdivinar.Children.Add(viewbox);
             }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            Viewbox viewbox;
             bool haFallado = true;
             Button boton = (Button)sender;
             string letra = boton.Tag.ToString();
@@ -86,7 +91,8 @@ namespace JuegoAhorcado
             {
                 if (caracteresPalabra[i] == Convert.ToChar(letra))
                 {
-                    ((TextBlock)wrapPanelPalabraAAdivinar.Children[i]).Text = letra;
+                    viewbox = (Viewbox)wrapPanelPalabraAAdivinar.Children[i];
+                    ((TextBlock)viewbox.Child).Text = letra.ToString();
                     haFallado = false;
                 }
             }
