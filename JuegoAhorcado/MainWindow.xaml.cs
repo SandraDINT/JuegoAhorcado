@@ -28,6 +28,7 @@ namespace JuegoAhorcado
         private string palabraAAdivinar;
         char[] caracteresPalabra;
         private TextBlock textBlockPalabra;
+        int fallos = 4;
         public MainWindow()
         {
             InitializeComponent();
@@ -75,7 +76,6 @@ namespace JuegoAhorcado
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             bool haFallado = true;
-            int fallos = 3;
             Button boton = (Button)sender;
             string letra = boton.Tag.ToString();
             caracteresPalabra = palabraAAdivinar.ToCharArray();
@@ -84,45 +84,23 @@ namespace JuegoAhorcado
                 if (caracteresPalabra[i] == Convert.ToChar(letra))
                 {
                     ((TextBlock)wrapPanelPalabraAAdivinar.Children[i]).Text = letra;
-                }
-                else
-                {
-                    if (haFallado)
-                    {
-                        BitmapImage bi = new BitmapImage();
-                        bi.BeginInit();
-                        bi.UriSource = new Uri("Assets/" + fallos++ + ".jpg", UriKind.Relative);
-                        bi.EndInit();
-                        imageAhorcado.Source = bi;
-                    }
+                    haFallado = false;
                 }
             }
-        }
-        private void KeyUp(object sender, KeyEventArgs e)
-        {
-            int fallos = 3;
-            bool haFallado = true;
-            char tecla = (char)e.Key;
-            caracteresPalabra = palabraAAdivinar.ToCharArray();
-            for (int i = 0; i < caracteresPalabra.Length; i++)
+            if (haFallado)
             {
-                if (caracteresPalabra[i] == tecla)
+                fallos++;
+                if (fallos < 10)
                 {
-                    ((TextBlock)wrapPanelPalabraAAdivinar.Children[i]).Text = e.Key.ToString();
-                    MessageBox.Show("Letra añadida");
+                    BitmapImage bi = new BitmapImage();
+                    bi.BeginInit();
+                    bi.UriSource = new Uri("Assets/" + fallos + ".jpg", UriKind.Relative);
+                    bi.EndInit();
+                    imageAhorcado.Source = bi;
                 }
                 else
-                {
-                    if (haFallado)
-                    {
-                        BitmapImage bi = new BitmapImage();
-                        bi.BeginInit();
-                        bi.UriSource = new Uri("Assets/" + fallos++ + ".jpg", UriKind.Relative);
-                        bi.EndInit();
-                        imageAhorcado.Source = bi;
-                    }
-                }
-            }
+                    MessageBox.Show("Game over");
+            }   
         }
 
         private void nuevaPartidaButton_Click(object sender, RoutedEventArgs e)
@@ -132,8 +110,38 @@ namespace JuegoAhorcado
 
         private void rendirseButton_Click(object sender, RoutedEventArgs e)
         {
-            wrapPanelPalabraAAdivinar.Children.Clear();
-            VisualizacionPalabraAAdivinar();
+            /*wrapPanelPalabraAAdivinar.Children.Clear();
+            VisualizacionPalabraAAdivinar();*/
+            textBlockPalabra.Text = palabraAAdivinar;
+        }
+
+        private void windowPrincipal_KeyUp(object sender, KeyEventArgs e)
+        {
+            bool haFallado = true;
+            string tecla = Convert.ToString(e.Key);
+            caracteresPalabra = palabraAAdivinar.ToCharArray();
+            for (int i = 0; i < caracteresPalabra.Length; i++)
+            {
+                if (caracteresPalabra[i] == Convert.ToChar(tecla))
+                {
+                    ((TextBlock)wrapPanelPalabraAAdivinar.Children[i]).Text = tecla.ToString();
+                    haFallado = false;
+                }
+            }
+            if (haFallado)
+            {
+                fallos++;
+                if (fallos < 10)
+                {
+                    BitmapImage bi = new BitmapImage();
+                    bi.BeginInit();
+                    bi.UriSource = new Uri("Assets/" + fallos + ".jpg", UriKind.Relative);
+                    bi.EndInit();
+                    imageAhorcado.Source = bi;
+                }
+                else
+                    MessageBox.Show("Game over");
+            }
         }
     }
 }

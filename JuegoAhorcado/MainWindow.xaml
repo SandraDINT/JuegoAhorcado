@@ -10,9 +10,10 @@
         Width="600"
         MinHeight="450"
         MinWidth="600"
-        Icon="Assets/icon.ico">
-    <DockPanel x:Name="dockPanelPrincipal"
-               KeyUp="KeyUp">
+        Icon="Assets/icon.ico"
+        x:Name="windowPrincipal"
+        KeyUp="windowPrincipal_KeyUp">
+    <DockPanel>
         <!--StackPanel botones de abajo-->
         <StackPanel Orientation="Horizontal"
                     DockPanel.Dock="Bottom"
