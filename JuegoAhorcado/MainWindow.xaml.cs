@@ -29,6 +29,8 @@ namespace JuegoAhorcado
         char[] caracteresPalabra;
         private TextBlock textBlockPalabra;
         int fallos = 4;
+        int numeroGuiones;
+        List<Button> listaBotones;
         public MainWindow()
         {
             InitializeComponent();
@@ -38,6 +40,7 @@ namespace JuegoAhorcado
         }
         private void CrearLetra()
         {
+            listaBotones = new List<Button>();
             foreach (string l in listaLetras)
             {
                 Button boton = new Button();
@@ -45,6 +48,7 @@ namespace JuegoAhorcado
                 boton.Content = l;
                 boton.Tag = l;
                 boton.Click += Button_Click;
+                listaBotones.Add(boton);
                 uniformGridLetras.Children.Add(boton);
             }
         }
@@ -57,7 +61,6 @@ namespace JuegoAhorcado
         }
         private void VisualizacionPalabraAAdivinar()
         {
-            int numeroGuiones;
             Random seed = new Random();
             for (int i = 0; i < seed.Next(0, 14); i++)
                 palabraAAdivinar = listaPalabras[i].ToUpper();
@@ -100,19 +103,37 @@ namespace JuegoAhorcado
                 }
                 else
                     MessageBox.Show("Game over");
-            }   
+            }
+            boton.IsEnabled = false;
         }
 
         private void nuevaPartidaButton_Click(object sender, RoutedEventArgs e)
         {
+            wrapPanelPalabraAAdivinar.Children.Clear();
+            fallos = 4;
+            CambiarImagen();
             VisualizacionPalabraAAdivinar();
+            foreach (Button boton in listaBotones)
+            {
+                boton.IsEnabled = true;
+            }
+        }
+        private void CambiarImagen()
+        {
+            BitmapImage bi = new BitmapImage();
+            bi.BeginInit();
+            bi.UriSource = new Uri("Assets/" + fallos + ".jpg", UriKind.Relative);
+            bi.EndInit();
+            imageAhorcado.Source = bi;
         }
 
         private void rendirseButton_Click(object sender, RoutedEventArgs e)
         {
-            /*wrapPanelPalabraAAdivinar.Children.Clear();
-            VisualizacionPalabraAAdivinar();*/
-            textBlockPalabra.Text = palabraAAdivinar;
+            wrapPanelPalabraAAdivinar.Children.Clear();
+            TextBlock palabra = new TextBlock();
+            palabra.Text = palabraAAdivinar;
+            wrapPanelPalabraAAdivinar.Children.Add(palabra);
+            
         }
 
         private void windowPrincipal_KeyUp(object sender, KeyEventArgs e)
@@ -133,11 +154,7 @@ namespace JuegoAhorcado
                 fallos++;
                 if (fallos < 10)
                 {
-                    BitmapImage bi = new BitmapImage();
-                    bi.BeginInit();
-                    bi.UriSource = new Uri("Assets/" + fallos + ".jpg", UriKind.Relative);
-                    bi.EndInit();
-                    imageAhorcado.Source = bi;
+                    CambiarImagen();
                 }
                 else
                     MessageBox.Show("Game over");
