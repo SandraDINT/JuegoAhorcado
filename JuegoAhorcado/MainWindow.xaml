@@ -11,13 +11,18 @@
         MinHeight="450"
         MinWidth="600"
         Icon="Assets/icon.ico">
-    <DockPanel>
+    <DockPanel x:Name="dockPanelPrincipal"
+               KeyUp="KeyUp">
         <!--StackPanel botones de abajo-->
         <StackPanel Orientation="Horizontal"
                     DockPanel.Dock="Bottom"
                     Margin="5">
-            <Button Content="Nueva partida" />
-            <Button Content="Rendirse" />
+            <Button x:Name="nuevaPartidaButton"
+                Content="Nueva partida" 
+                    Click="nuevaPartidaButton_Click"/>
+            <Button x:Name="rendirseButton"
+                Content="Rendirse" 
+                    Click="rendirseButton_Click"/>
         </StackPanel>
         <!--Imagen ahorcado-->
         <Image x:Name="imageAhorcado"

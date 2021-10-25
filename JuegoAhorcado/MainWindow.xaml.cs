@@ -23,8 +23,10 @@ namespace JuegoAhorcado
         private const int NUM_FILAS = 3;
         private const int NUM_COLUMNAS = 9;
         private List<string> listaLetras = new List<string>();
-        private List<string> listaPalabras = new List<string>() { "Jirafa", "Ascensor", "Fiesta", "Ahorcado", "Espectaculo" };
+        private List<string> listaPalabras = new List<string>() { "Jirafa", "Ascensor", "Fiesta", "Ahorcado", "Espectaculo" , "Chanclas",
+        "Honor", "Guerra", "Hambre", "Hilo", "Programacion", "Pegaso", "Alfombra"};
         private string palabraAAdivinar;
+        char[] caracteresPalabra;
         private TextBlock textBlockPalabra;
         public MainWindow()
         {
@@ -56,7 +58,7 @@ namespace JuegoAhorcado
         {
             int numeroGuiones;
             Random seed = new Random();
-            for (int i = 0; i < seed.Next(0, 6); i++)
+            for (int i = 0; i < seed.Next(0, 14); i++)
                 palabraAAdivinar = listaPalabras[i].ToUpper();
 
             numeroGuiones = palabraAAdivinar.Length;
@@ -72,11 +74,11 @@ namespace JuegoAhorcado
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            bool haFallado;
+            bool haFallado = true;
             int fallos = 3;
             Button boton = (Button)sender;
             string letra = boton.Tag.ToString();
-            char[] caracteresPalabra = palabraAAdivinar.ToCharArray();
+            caracteresPalabra = palabraAAdivinar.ToCharArray();
             for (int i = 0; i < caracteresPalabra.Length; i++)
             {
                 if (caracteresPalabra[i] == Convert.ToChar(letra))
@@ -85,7 +87,6 @@ namespace JuegoAhorcado
                 }
                 else
                 {
-                    haFallado = true;
                     if (haFallado)
                     {
                         BitmapImage bi = new BitmapImage();
@@ -94,9 +95,45 @@ namespace JuegoAhorcado
                         bi.EndInit();
                         imageAhorcado.Source = bi;
                     }
-
                 }
             }
+        }
+        private void KeyUp(object sender, KeyEventArgs e)
+        {
+            int fallos = 3;
+            bool haFallado = true;
+            char tecla = (char)e.Key;
+            caracteresPalabra = palabraAAdivinar.ToCharArray();
+            for (int i = 0; i < caracteresPalabra.Length; i++)
+            {
+                if (caracteresPalabra[i] == tecla)
+                {
+                    ((TextBlock)wrapPanelPalabraAAdivinar.Children[i]).Text = e.Key.ToString();
+                    MessageBox.Show("Letra añadida");
+                }
+                else
+                {
+                    if (haFallado)
+                    {
+                        BitmapImage bi = new BitmapImage();
+                        bi.BeginInit();
+                        bi.UriSource = new Uri("Assets/" + fallos++ + ".jpg", UriKind.Relative);
+                        bi.EndInit();
+                        imageAhorcado.Source = bi;
+                    }
+                }
+            }
+        }
+
+        private void nuevaPartidaButton_Click(object sender, RoutedEventArgs e)
+        {
+            VisualizacionPalabraAAdivinar();
+        }
+
+        private void rendirseButton_Click(object sender, RoutedEventArgs e)
+        {
+            wrapPanelPalabraAAdivinar.Children.Clear();
+            VisualizacionPalabraAAdivinar();
         }
     }
 }
