@@ -13,15 +13,56 @@
         Icon="Assets/icon.ico"
         x:Name="windowPrincipal"
         KeyUp="windowPrincipal_KeyUp">
+    <Window.Resources>
+        <!--Estilos botones NUEVA PARTIDA y RENDIRSE-->
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="#741e4e"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+        </Style>
+
+        <Style TargetType="{x:Type Button}" 
+               BasedOn="{StaticResource {x:Type Button}}"
+               x:Key="ButtonNuevaPartida">
+            <Setter Property="Content"
+                    Value="Nueva partida"></Setter>
+            <EventSetter Event="Click"
+                         Handler="nuevaPartidaButton_Click"></EventSetter>
+        </Style>
+        <Style TargetType="{x:Type Button}"
+               BasedOn="{StaticResource {x:Type Button}}"
+               x:Key="ButtonRendirse">
+            <Setter Property="Content" Value="Rendirse"></Setter>
+            <EventSetter Event="Click" Handler="rendirseButton_Click"></EventSetter>
+        </Style>
+        <!---->
+        <!--Estilo textblock letras-->
+        <Style TargetType="TextBlock" x:Key="estiloTextBlockLetras">
+            <Setter Property="FontSize"
+                    Value="36"></Setter>
+            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+        </Style>
+        <!--Estilo botones letras-->
+        <Style TargetType="Button"
+               x:Key="estiloBotonesLetras">
+            <Setter Property="Background"
+                    Value="#741e4e"></Setter>
+            <Setter Property="Foreground" Value="White"></Setter>
+        </Style>
+    </Window.Resources>
+    
+    
     <DockPanel>
         <!--StackPanel botones de abajo-->
         <StackPanel Orientation="Horizontal"
                     DockPanel.Dock="Bottom"
                     Margin="5">
-            <Button x:Name="nuevaPartidaButton"
-                Content="Nueva partida" 
+            <Button 
+                Style="{StaticResource ButtonNuevaPartida}"
+                x:Name="nuevaPartidaButton"
+                    Content="Nueva partida" 
                     Click="nuevaPartidaButton_Click"/>
-            <Button x:Name="rendirseButton"
+            <Button Style="{StaticResource ButtonRendirse}"
+                x:Name="rendirseButton"
                 Content="Rendirse" 
                     Click="rendirseButton_Click"/>
         </StackPanel>

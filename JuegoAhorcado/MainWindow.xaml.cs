@@ -24,13 +24,15 @@ namespace JuegoAhorcado
         private const int NUM_COLUMNAS = 9;
         private List<string> listaLetras = new List<string>();
         private List<string> listaPalabras = new List<string>() { "Jirafa", "Ascensor", "Fiesta", "Ahorcado", "Espectaculo" , "Chanclas",
-        "Honor", "Guerra", "Hambre", "Hilo", "Programacion", "Pegaso", "Alfombra"};
+        "Honor", "Guerra", "Hambre", "Hilo", "Programacion", "Pegaso", "Alfombra", "HETERNOMASCLOIDEO"};
         private string palabraAAdivinar;
         char[] caracteresPalabra;
         private TextBlock textBlockPalabra;
         int fallos = 4;
         int numeroGuiones;
         List<Button> listaBotones;
+        Viewbox viewBox;
+        int contadorGanar = 0;
         public MainWindow()
         {
             InitializeComponent();
@@ -43,7 +45,9 @@ namespace JuegoAhorcado
             listaBotones = new List<Button>();
             foreach (string l in listaLetras)
             {
-                Button boton = new Button();
+                Button boton = new Button {
+                    Style = (Style)this.Resources["estiloBotonesLetras"]
+                };
                 boton.Margin = new Thickness(5);
                 boton.Content = l;
                 boton.Tag = l;
@@ -62,38 +66,43 @@ namespace JuegoAhorcado
         private void VisualizacionPalabraAAdivinar()
         {
             Random seed = new Random();
-            for (int i = 0; i < seed.Next(0, 14); i++)
+            for (int i = 0; i < seed.Next(0, listaPalabras.Count + 1); i++)
                 palabraAAdivinar = listaPalabras[i].ToUpper();
 
             numeroGuiones = palabraAAdivinar.Length;
 
             for (int i = 0; i < numeroGuiones; i++)
             {
-                viewbox = new Viewbox();
-                textBlockPalabra = new TextBlock();
+                textBlockPalabra = new TextBlock
+                {
+                    Style = (Style)this.Resources["estiloTextBlockLetras"]
+                };
                 textBlockPalabra.Text += "_ ";
-                textBlockPalabra.FontSize = 24;
-                viewbox.Child = textBlockPalabra;
                 wrapPanelPalabraAAdivinar.HorizontalAlignment = HorizontalAlignment.Center;
                 wrapPanelPalabraAAdivinar.VerticalAlignment = VerticalAlignment.Center;
-                wrapPanelPalabraAAdivinar.Children.Add(viewbox);
+                wrapPanelPalabraAAdivinar.Children.Add(textBlockPalabra);
             }
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            Viewbox viewbox;
             bool haFallado = true;
             Button boton = (Button)sender;
             string letra = boton.Tag.ToString();
+            bool haGanado = false;
             caracteresPalabra = palabraAAdivinar.ToCharArray();
             for (int i = 0; i < caracteresPalabra.Length; i++)
             {
                 if (caracteresPalabra[i] == Convert.ToChar(letra))
                 {
-                    viewbox = (Viewbox)wrapPanelPalabraAAdivinar.Children[i];
-                    ((TextBlock)viewbox.Child).Text = letra.ToString();
+                    viewBox = (Viewbox)wrapPanelPalabraAAdivinar.Children[i];
+                    ((TextBlock)viewBox.Child).Text = letra.ToString();
                     haFallado = false;
+                    contadorGanar++;
+                    if (contadorGanar == palabraAAdivinar.Length)
+                        haGanado = true;
+                    if (haGanado)
+                        MessageBox.Show("¡HAS GANADO!");
                 }
             }
             if (haFallado)
@@ -112,17 +121,30 @@ namespace JuegoAhorcado
             }
             boton.IsEnabled = false;
         }
-
-        private void nuevaPartidaButton_Click(object sender, RoutedEventArgs e)
+        private void HabilitarBotones()
         {
-            wrapPanelPalabraAAdivinar.Children.Clear();
-            fallos = 4;
-            CambiarImagen();
-            VisualizacionPalabraAAdivinar();
             foreach (Button boton in listaBotones)
             {
                 boton.IsEnabled = true;
             }
+        }
+
+        private void nuevaPartidaButton_Click(object sender, RoutedEventArgs e)
+        {
+            wrapPanelPalabraAAdivinar.Children.Clear();
+            ReiniciarFallos();
+            CambiarImagen();
+            VisualizacionPalabraAAdivinar();
+            HabilitarBotones();
+            ReiniciarContadorPalabrasAcertadas();
+        }
+        private void ReiniciarContadorPalabrasAcertadas()
+        {
+            contadorGanar = 0;
+        }
+        private void ReiniciarFallos()
+        {
+            fallos = 4;
         }
         private void CambiarImagen()
         {
@@ -137,22 +159,37 @@ namespace JuegoAhorcado
         {
             wrapPanelPalabraAAdivinar.Children.Clear();
             TextBlock palabra = new TextBlock();
+            palabra.FontSize = 36;
             palabra.Text = palabraAAdivinar;
             wrapPanelPalabraAAdivinar.Children.Add(palabra);
-            
+
         }
 
         private void windowPrincipal_KeyUp(object sender, KeyEventArgs e)
         {
+            bool haGanado = false;
+            Viewbox viewbox;
             bool haFallado = true;
-            string tecla = Convert.ToString(e.Key);
+            string tecla = e.Key.ToString();
+            foreach (Button boton in listaBotones)
+            {
+                if (boton.Tag.Equals(tecla))
+                    boton.IsEnabled = false;
+            }
+
             caracteresPalabra = palabraAAdivinar.ToCharArray();
             for (int i = 0; i < caracteresPalabra.Length; i++)
             {
                 if (caracteresPalabra[i] == Convert.ToChar(tecla))
                 {
-                    ((TextBlock)wrapPanelPalabraAAdivinar.Children[i]).Text = tecla.ToString();
+                    viewbox = (Viewbox)wrapPanelPalabraAAdivinar.Children[i];
+                    ((TextBlock)viewbox.Child).Text = tecla.ToString();
                     haFallado = false;
+                    contadorGanar++;
+                    if (contadorGanar == palabraAAdivinar.Length)
+                        haGanado = true;
+                    if (haGanado)
+                        MessageBox.Show("¡HAS GANADO!");
                 }
             }
             if (haFallado)
@@ -160,7 +197,11 @@ namespace JuegoAhorcado
                 fallos++;
                 if (fallos < 10)
                 {
-                    CambiarImagen();
+                    BitmapImage bi = new BitmapImage();
+                    bi.BeginInit();
+                    bi.UriSource = new Uri("Assets/" + fallos + ".jpg", UriKind.Relative);
+                    bi.EndInit();
+                    imageAhorcado.Source = bi;
                 }
                 else
                     MessageBox.Show("Game over");
