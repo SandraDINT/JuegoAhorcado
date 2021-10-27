@@ -95,8 +95,7 @@ namespace JuegoAhorcado
             {
                 if (caracteresPalabra[i] == Convert.ToChar(letra))
                 {
-                    viewBox = (Viewbox)wrapPanelPalabraAAdivinar.Children[i];
-                    ((TextBlock)viewBox.Child).Text = letra.ToString();
+                    ((TextBlock)wrapPanelPalabraAAdivinar.Children[i]).Text = letra.ToString();
                     haFallado = false;
                     contadorGanar++;
                     if (contadorGanar == palabraAAdivinar.Length)
@@ -117,7 +116,9 @@ namespace JuegoAhorcado
                     imageAhorcado.Source = bi;
                 }
                 else
+                {
                     MessageBox.Show("Game over");
+                }
             }
             boton.IsEnabled = false;
         }

@@ -16,67 +16,88 @@
     <Window.Resources>
         <!--Estilos botones NUEVA PARTIDA y RENDIRSE-->
         <Style TargetType="{x:Type Button}">
-            <Setter Property="Background" Value="#741e4e"></Setter>
-            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="Background"
+                    Value="#741e4e"></Setter>
+            <Setter Property="Foreground"
+                    Value="White"></Setter>
         </Style>
 
-        <Style TargetType="{x:Type Button}" 
+        <Style TargetType="{x:Type Button}"
                BasedOn="{StaticResource {x:Type Button}}"
                x:Key="ButtonNuevaPartida">
             <Setter Property="Content"
                     Value="Nueva partida"></Setter>
+            <Setter Property="Margin"
+                    Value="5"></Setter>
             <EventSetter Event="Click"
                          Handler="nuevaPartidaButton_Click"></EventSetter>
         </Style>
         <Style TargetType="{x:Type Button}"
                BasedOn="{StaticResource {x:Type Button}}"
                x:Key="ButtonRendirse">
-            <Setter Property="Content" Value="Rendirse"></Setter>
-            <EventSetter Event="Click" Handler="rendirseButton_Click"></EventSetter>
+            <Setter Property="Content"
+                    Value="Rendirse"></Setter>
+            <Setter Property="Margin"
+                    Value="5"></Setter>
+            <EventSetter Event="Click"
+                         Handler="rendirseButton_Click"></EventSetter>
         </Style>
         <!---->
         <!--Estilo textblock letras-->
-        <Style TargetType="TextBlock" x:Key="estiloTextBlockLetras">
+        <Style TargetType="TextBlock"
+               x:Key="estiloTextBlockLetras">
             <Setter Property="FontSize"
                     Value="36"></Setter>
-            <Setter Property="TextWrapping" Value="Wrap"></Setter>
+            <Setter Property="TextWrapping"
+                    Value="Wrap"></Setter>
         </Style>
         <!--Estilo botones letras-->
         <Style TargetType="Button"
                x:Key="estiloBotonesLetras">
             <Setter Property="Background"
                     Value="#741e4e"></Setter>
-            <Setter Property="Foreground" Value="White"></Setter>
+            <Setter Property="Foreground"
+                    Value="White"></Setter>
         </Style>
     </Window.Resources>
-    
-    
+
+
     <DockPanel>
         <!--StackPanel botones de abajo-->
         <StackPanel Orientation="Horizontal"
                     DockPanel.Dock="Bottom"
                     Margin="5">
-            <Button 
-                Style="{StaticResource ButtonNuevaPartida}"
-                x:Name="nuevaPartidaButton"
-                    Content="Nueva partida" 
-                    Click="nuevaPartidaButton_Click"/>
+            <Button Style="{StaticResource ButtonNuevaPartida}"
+                    x:Name="nuevaPartidaButton"
+                    Content="Nueva partida"
+                    Click="nuevaPartidaButton_Click" />
             <Button Style="{StaticResource ButtonRendirse}"
-                x:Name="rendirseButton"
-                Content="Rendirse" 
-                    Click="rendirseButton_Click"/>
+                    x:Name="rendirseButton"
+                    Content="Rendirse"
+                    Click="rendirseButton_Click" />
         </StackPanel>
         <!--Imagen ahorcado-->
         <Image x:Name="imageAhorcado"
-            DockPanel.Dock="Left"
+               DockPanel.Dock="Left"
                Source="Assets/4.jpg"
                Margin="5" />
         <!--Texto ahorcado-->
-        <TextBlock
-            Text="Ahorcado"
+        <TextBlock Text="Ahorcado"
                    HorizontalAlignment="Center"
                    FontSize="40"
-                   DockPanel.Dock="Top" />
+                   DockPanel.Dock="Top"
+                   Foreground="White"
+                   Margin="5">
+            <TextBlock.Background>
+                <LinearGradientBrush EndPoint="0.5,1"
+                                     StartPoint="0.5,0">
+                    <GradientStop Color="White"
+                                  Offset="0" />
+                    <GradientStop Color="#FF741E4E"
+                                  Offset="0.746" />
+                </LinearGradientBrush>
+            </TextBlock.Background>
+        </TextBlock>
         <!--Zona de juego-->
         <Grid>
             <Grid.ColumnDefinitions>
