@@ -20,19 +20,17 @@ namespace JuegoAhorcado
     /// </summary>
     public partial class MainWindow : Window
     {
-        private const int NUM_FILAS = 3;
-        private const int NUM_COLUMNAS = 9;
         private List<string> listaLetras = new List<string>();
         private List<string> listaPalabras = new List<string>() { "Jirafa", "Ascensor", "Fiesta", "Ahorcado", "Espectaculo" , "Chanclas",
-        "Honor", "Guerra", "Hambre", "Hilo", "Programacion", "Pegaso", "Alfombra", "HETERNOMASCLOIDEO"};
+        "Honor", "Guerra", "Hambre", "Hilo", "Programacion", "Pegaso", "Alfombra", "HETERNOMASCLOIDEO", "Muñeca"};
         private string palabraAAdivinar;
         char[] caracteresPalabra;
-        private TextBlock textBlockPalabra;
+        TextBlock textBlockPalabra;
         int fallos = 4;
         int numeroGuiones;
         List<Button> listaBotones;
-        Viewbox viewBox;
         int contadorGanar = 0;
+        TextBlock palabra;
         public MainWindow()
         {
             InitializeComponent();
@@ -58,10 +56,12 @@ namespace JuegoAhorcado
         }
         private void AñadirLetraALista()
         {
+            string enye = "ñ";
             for (int i = 65; i <= 90; i++)
             {
                 listaLetras.Add(Convert.ToChar(i).ToString().ToUpper());
             }
+            listaLetras.Add(enye.ToUpper());
         }
         private void VisualizacionPalabraAAdivinar()
         {
@@ -118,6 +118,12 @@ namespace JuegoAhorcado
                 else
                 {
                     MessageBox.Show("Game over");
+                    palabra = new TextBlock {
+                        Style = (Style)this.Resources["estiloTextBlockLetras"]
+                    };
+                    wrapPanelPalabraAAdivinar.Children.Clear();
+                    palabra.Text = palabraAAdivinar;
+                    wrapPanelPalabraAAdivinar.Children.Add(palabra);
                 }
             }
             boton.IsEnabled = false;
@@ -159,7 +165,7 @@ namespace JuegoAhorcado
         private void rendirseButton_Click(object sender, RoutedEventArgs e)
         {
             wrapPanelPalabraAAdivinar.Children.Clear();
-            TextBlock palabra = new TextBlock();
+            palabra = new TextBlock();
             palabra.FontSize = 36;
             palabra.Text = palabraAAdivinar;
             wrapPanelPalabraAAdivinar.Children.Add(palabra);
